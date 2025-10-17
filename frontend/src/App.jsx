@@ -3,19 +3,16 @@ import Home from './pages/Home'
 import AddPost from './pages/AddPost'
 import PostDetail from './pages/PostDetail'
 import UserAuth from './pages/UserAuth'
+import {useState, useEffect} from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 
-const getUserFromStorage = () => {
-  try {
-    const stored = localStorage.getItem('user');
-    return stored ? JSON.parse(stored) : null;
-  } catch {
-    return null;
-  }
-};
-
 function App() {
-  const user = getUserFromStorage();
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const stored = localStorage.getItem('user')
+    if (stored) setUser(JSON.parse(stored))
+  }, [])
 
   return (
     <Router>
