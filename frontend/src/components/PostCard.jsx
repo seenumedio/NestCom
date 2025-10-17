@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from "framer-motion";
-function PostCard() {
+function PostCard({post}) {
     const [isHovered, setIsHovered] = useState(false);
     const [topLeft, bottomLeft, bottomRight, initial] = [{ x: 40, y: 40, opacity: 0 }, { x: 40, y: -40, opacity: 0 }, { x: -80, y: -40, opacity: 0 }, { x: 0, y: 0, opacity: 1 }];
     return (
@@ -12,7 +12,7 @@ function PostCard() {
             transition={{ duration: 0.3 }}
         >
             <motion.img
-                src='/src/assets/AI.png'
+                src={post.image}
                 className='w-full h-full text-white rounded-[inherit] text-center'
                 animate={{ opacity: isHovered ? 0.75 : 1 }}
                 transition={{ duration: 0.3 }}

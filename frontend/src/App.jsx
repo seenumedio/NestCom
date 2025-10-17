@@ -20,8 +20,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path={'/'} element={<Home />} />
-        <Route path={'/addPost'} element={<AddPost />} />
+        <Route path={'/'} element={user ? <Home /> : <Navigate to="/auth" />} />
+        <Route path={'/addPost'} element={user ? <AddPost /> : <Navigate to="/auth" />} />
         <Route path={'/post/:postId'} element={<PostDetail />} />
         <Route path={'/auth'} element={<UserAuth />} />
       </Routes>
