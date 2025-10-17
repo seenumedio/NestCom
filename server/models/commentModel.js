@@ -19,24 +19,8 @@ const commentSchema = new Schema({
         type: Number,
         default: 0,
     },
-    replies: [{
-        username: {
-            type: String,
-            required: true
-        },
-        commentId: {
-            type: Schema.Types.ObjectId,
-            required: true
-        },
-        reply: {
-            type: String,
-            required: true
-        },
-        createdAt: {
-            type: Date,
-            default: new Date().getTime()
-        }
-    }]
+    likedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    parentId: { type: Schema.Types.ObjectId, default: null },
 }, {
     timestamps: true
 })

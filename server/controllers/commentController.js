@@ -11,14 +11,15 @@ const getAllComments = async (req, res) => {
 }
 const createComment = async (req, res) => {
     const postId = req.params?.postId;
-    const { username, comment } = req?.body;
+    const { username, comment, parentId } = req?.body;
 
     try {
         if (postId) {
             const Comment = await CommentModel.create({
                 postId,
                 comment,
-                username: username ? username : 'admin'
+                parentId: parentId || null,
+                username: username ? username : 'admin',
             })
             res.status(201).json(Comment);
         } else {

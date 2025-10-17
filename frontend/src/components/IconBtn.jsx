@@ -1,11 +1,15 @@
 import { useState } from 'react'
 
-export default function IconBtn({ Filled, Empty, children, handleClick, isEditing, ...props }) {
+export default function IconBtn({ Filled, Empty, children, handleClick, isEditing, isReplying, ...props }) {
   const [isActive, setIsActive] = useState(false);
-  const active = typeof isEditing==='boolean' ? isEditing: isActive
-  return (
+  const active = typeof isEditing === 'boolean' 
+  ? isEditing 
+  : typeof isReplying === 'boolean' 
+      ? isReplying 
+      : isActive;
+return (
     <button
-      onClick={() => { setIsActive(prev => !prev); if(handleClick) handleClick() }}
+      onClick={() => { setIsActive(prev => !prev); if (handleClick) handleClick() }}
       {...props}
       className='flex items-center cursor-pointer'
     >

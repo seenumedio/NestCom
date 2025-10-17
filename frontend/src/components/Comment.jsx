@@ -6,6 +6,7 @@ import { useState } from 'react'
 import CommentForm from './CommentForm'
 
 function Comment({ comment }) {
+  const [likes, setLikes] = useState(comment.likes);
 
   const storedUser = localStorage.getItem('user');
   const user = storedUser ? JSON.parse(storedUser) : null;
@@ -52,6 +53,15 @@ function Comment({ comment }) {
     })
     handleEditBtn()
   }
+  // reply to a comment
+  const [isReplying, setIsReplying] = useState(false);
+  function handleReply() {
+    setIsReplying(prev => !prev);
+  }
+  // like comment
+  function handleLike() {
+    setLikes(prev => prev === 0 ? 1 : 0);
+  }
 
   return (
     <>
@@ -76,10 +86,10 @@ function Comment({ comment }) {
         <div
           className="footer flex gap-4 text-indigo-500"
         >
-          <IconBtn Empty={FaRegHeart} Filled={FaHeart} aria-label="like">
-            {comment.likes}
+          <IconBtn Empty={FaRegHeart} Filled={FaHeart} aria-label="like" handleClick={handleLike}>
+            {likes}
           </IconBtn>
-          <IconBtn Empty={FaReply} Filled={FaTimes} aria-label="reply" />
+          <IconBtn Empty={FaReply} Filled={FaTimes} aria-label="reply" isReplying={isReplying} handleClick={handleReply} />
           {user?.username === comment.username &&
             <>
               <IconBtn Empty={FaEdit} Filled={FaPencilAlt} aria-label="edit" isEditing={isEditing} handleClick={handleEditBtn} />
@@ -87,7 +97,18 @@ function Comment({ comment }) {
             </>
           }
         </div>
+
       </div>
+      {isReplying &&
+        <div className='pl-4 border-l-2 border-neutral-400/50'>
+          <CommentForm 
+          autoFocus={true}
+          parentId={commentId}
+          postId={postId}
+          handleReply={handleReply}
+          />
+        </div>
+      }
     </>
   )
 }

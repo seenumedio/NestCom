@@ -1,15 +1,13 @@
 import { useState } from 'react'
 import { useAddCommentMutation } from '../features/comments/commentApi';
 
-function CommentForm({ loading, error, autoFocus = false, postId, handleEdit, mssg }) {
-
+function CommentForm({ loading, error, autoFocus = false, postId, handleEdit, handleReply, parentId, mssg }) {
 
     // fetching admin details
     const storedUser = localStorage.getItem('user');
     const user = storedUser ? JSON.parse(storedUser) : null;
 
     const [comment, setComment] = useState(mssg || '');
-
     // adding comment
     const [addComment] = useAddCommentMutation() || {}
     const handleSubmit = (e) => {
@@ -24,10 +22,14 @@ function CommentForm({ loading, error, autoFocus = false, postId, handleEdit, ms
                     postId,
                     username: user.username,
                     comment,
+                    parentId: parentId || null,
                 }
             })
         }
         setComment('');
+        if(handleReply){
+            handleReply();
+        }
     }
 
     return (
