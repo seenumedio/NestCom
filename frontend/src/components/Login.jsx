@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { loginUser } from '../features/auth/authApi';
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({setShowLogin}) => {
+const Login = ({ setShowLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -24,6 +24,7 @@ const Login = ({setShowLogin}) => {
       console.log('Logged in user:', user);
       navigate('/'); // redirect after login
     } catch (err) {
+      console.error(err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -33,11 +34,11 @@ const Login = ({setShowLogin}) => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-4">
       <div className='flex justify-between'>
-      <h2>Login</h2>
-      <button 
-      className='text-blue-500 hover:underline hover:scale-102 cursor-pointer'
-      onClick={()=>setShowLogin(false)}
-      >SignUp</button>
+        <h2>Login</h2>
+        <button
+          className='text-blue-500 hover:underline hover:scale-102 cursor-pointer'
+          onClick={(e) => {e.preventDefault(); setShowLogin(false)}}
+        >SignUp</button>
       </div>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <input

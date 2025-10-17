@@ -3,12 +3,18 @@ import { useAddCommentMutation } from '../features/comments/commentApi';
 
 function CommentForm({ loading, error, autoFocus = false, postId, handleEdit, mssg }) {
 
+
+    // fetching admin details
+    const storedUser = localStorage.getItem('user');
+    const user = storedUser ? JSON.parse(storedUser) : null;
+
     const [comment, setComment] = useState(mssg || '');
 
     // adding comment
     const [addComment] = useAddCommentMutation() || {}
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!user) return alert("Please login to comment");
         if (handleEdit) {
             handleEdit(comment)
         } else {
@@ -16,7 +22,7 @@ function CommentForm({ loading, error, autoFocus = false, postId, handleEdit, ms
                 postId,
                 data: {
                     postId,
-                    username: 'admin',
+                    username: user.username,
                     comment,
                 }
             })

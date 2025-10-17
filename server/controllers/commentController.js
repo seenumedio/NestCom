@@ -18,7 +18,7 @@ const createComment = async (req, res) => {
             const Comment = await CommentModel.create({
                 postId,
                 comment,
-                username: username ? username : 'seenu'
+                username: username ? username : 'admin'
             })
             res.status(201).json(Comment);
         } else {

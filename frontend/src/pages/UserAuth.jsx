@@ -1,13 +1,15 @@
-import { useState } from 'react'
-import Register from '../components/Register'
-import Login from '../components/Login'
-function UserAuth() {
-    const [showLogin, setShowLogin] = useState(true);
-    return (
-        <>
-            {showLogin ? <Login setShowLogin={setShowLogin} /> : <Register />}
-        </>
-    )
-}
+import { useState } from 'react';
+import Login from '../components/Login';
+import Register from '../components/Register';
 
-export default UserAuth
+const UserAuth = () => {
+  const [showLogin, setShowLogin] = useState(true);
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      {showLogin ? <Login setShowLogin={setShowLogin}/> : <Register setShowLogin={setShowLogin}/>}
+    </div>
+  );
+};
+
+export default UserAuth;

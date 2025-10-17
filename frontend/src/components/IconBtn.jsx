@@ -5,7 +5,7 @@ export default function IconBtn({ Filled, Empty, children, handleClick, isEditin
   const active = typeof isEditing==='boolean' ? isEditing: isActive
   return (
     <button
-      onClick={() => { setIsActive(prev => !prev); handleClick() }}
+      onClick={() => { setIsActive(prev => !prev); if(handleClick) handleClick() }}
       {...props}
       className='flex items-center cursor-pointer'
     >

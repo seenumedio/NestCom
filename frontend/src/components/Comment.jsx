@@ -7,6 +7,9 @@ import CommentForm from './CommentForm'
 
 function Comment({ comment }) {
 
+  const storedUser = localStorage.getItem('user');
+  const user = storedUser ? JSON.parse(storedUser) : null;
+
   const commentId = comment._id
   const { postId } = useParams()
 
@@ -64,6 +67,7 @@ function Comment({ comment }) {
               autoFocus={true}
               mssg={comment.comment}
               handleEdit={handleEdit}
+              user={user}
             />
           </div>
           : <div className='mssg p-2 text-black'>{comment.comment}</div>
@@ -76,8 +80,12 @@ function Comment({ comment }) {
             {comment.likes}
           </IconBtn>
           <IconBtn Empty={FaReply} Filled={FaTimes} aria-label="reply" />
-          <IconBtn Empty={FaEdit} Filled={FaPencilAlt} aria-label="edit" isEditing={isEditing} handleClick={handleEditBtn} />
-          <IconBtn Empty={FaTrash} Filled={FaTrash} aria-label="delete" handleClick={handleDelete} />
+          {user?.username === comment.username &&
+            <>
+              <IconBtn Empty={FaEdit} Filled={FaPencilAlt} aria-label="edit" isEditing={isEditing} handleClick={handleEditBtn} />
+              <IconBtn Empty={FaTrash} Filled={FaTrash} aria-label="delete" handleClick={handleDelete} />
+            </>
+          }
         </div>
       </div>
     </>
