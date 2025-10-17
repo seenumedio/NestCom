@@ -12,8 +12,8 @@ A Reddit-style infinite nested comment system built using React, Redux Toolkit Q
 - [x] Fetch and display posts
 - [x] Add comments
 - [x] Authentication
-- [ ] Edit, delete comments(coming soon)
-- [ ] Nested comments
+- [x] Edit, delete comments
+- [ ] Nested comments (coming soon)
 - [ ] Like / Dislike system
 
 ## 📦 Setup Instructions
