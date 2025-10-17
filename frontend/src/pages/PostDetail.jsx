@@ -2,12 +2,13 @@ import { motion } from 'framer-motion'
 import CommentsList from '../components/CommentsList'
 import CommentForm from '../components/CommentForm'
 import { useGetCommentsQuery } from '../features/comments/commentApi';
+
 import { useParams } from 'react-router-dom';
 
 function PostDetail() {
 
   // fetching all comments
-  const {postId} = useParams();
+  const { postId } = useParams();
   const { data: comments, isLoading: commentLoading, isError: commentError } = useGetCommentsQuery(postId) || {};
 
   return (
@@ -34,7 +35,10 @@ function PostDetail() {
           />
         </motion.div>
       </div>
-      <CommentForm loading={commentLoading} error={commentError} autoFocus postId={postId} />
+      <div className='my-8'>
+        <h1 className='text-2xl font-semibold my-2'>Comments</h1>
+        <CommentForm loading={commentLoading} error={commentError} autoFocus postId={postId} />
+      </div>
       <CommentsList comments={comments} />
     </>
   )

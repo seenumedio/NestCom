@@ -1,31 +1,33 @@
 import { useState } from 'react'
 import { useAddCommentMutation } from '../features/comments/commentApi';
 
-function CommentForm({ loading, error, autoFocus = false, postId }) {
+function CommentForm({ loading, error, autoFocus = false, postId, handleEdit, mssg }) {
 
-    const [comment, setComment] = useState('');
+    const [comment, setComment] = useState(mssg || '');
 
     // adding comment
     const [addComment] = useAddCommentMutation() || {}
     const handleSubmit = (e) => {
         e.preventDefault();
-        addComment({
-            postId,
-            data: {
+        if (handleEdit) {
+            handleEdit(comment)
+        } else {
+            addComment({
                 postId,
-                username: 'admin',
-                comment,
-            }
-        })
+                data: {
+                    postId,
+                    username: 'admin',
+                    comment,
+                }
+            })
+        }
         setComment('');
     }
 
     return (
         <form
             onSubmit={handleSubmit}
-            className='my-6'
         >
-            <h1 className='text-2xl font-semibold my-2'>Comments</h1>
             <div className='w-full flex justify-between gap-2'>
                 <textarea
                     autoFocus={autoFocus}

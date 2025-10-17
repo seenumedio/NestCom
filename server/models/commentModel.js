@@ -11,11 +11,15 @@ const commentSchema = new Schema({
         type: String,
         required: true
     },
-    comment:{
-        type:String,
+    comment: {
+        type: String,
         require: true
     },
-    replies:[{
+    likes: {
+        type: Number,
+        default: 0,
+    },
+    replies: [{
         username: {
             type: String,
             required: true
@@ -24,7 +28,7 @@ const commentSchema = new Schema({
             type: Schema.Types.ObjectId,
             required: true
         },
-        reply:{
+        reply: {
             type: String,
             required: true
         },

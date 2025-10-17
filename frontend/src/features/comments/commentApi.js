@@ -22,7 +22,7 @@ export const commentApi = rootApi.injectEndpoints({
             invalidatesTags: ['Comment']
         }),
         updateComment: builder.mutation({
-            query: () => ({
+            query: ({ postId, commentId, data }) => ({
                 method: 'PATCH',
                 url: `comments/${postId}/comments/${commentId}`,
                 body: data

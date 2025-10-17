@@ -39,12 +39,16 @@ const deleteComment = async (req, res) => {
 }
 const updateComment = async (req, res) => {
     const { commentId } = req.params;
-    const { username, comment } = req?.body;
+    const { username, comment, likes } = req?.body;
+    if(!commentId){
+        return res.status(404).json({error: 'No comment id received'})
+    }
 
     const Comment = await CommentModel.findOneAndUpdate(
         { _id: commentId },
         {
             comment,
+            likes: likes || 0
         }
     )
 
