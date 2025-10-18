@@ -56,7 +56,8 @@ This project helped in understanding:
 ```bash
 git clone https://github.com/<your-username>/nestcom.git
 cd nestcom
-2️⃣ Install dependencies
+
+### 2️⃣ Install dependencies
 Frontend
 ```bash
 cd frontend
