@@ -13,6 +13,7 @@ function PostDetail() {
   if (postError) return <p>Error fetching post.</p>;
   // fetching all comments  
   const { data: comments, isLoading: commentLoading, isError: commentError } = useGetCommentsQuery(postId) || {};
+  const commentsCount = comments?.length || 0;
   return (
     <>
       {postLoading ? <Spinner /> :
@@ -45,7 +46,7 @@ function PostDetail() {
         </div>
       }
       <div className='w-[90vw] my-8'>
-        <h1 className='text-2xl font-semibold my-2'>Comments</h1>
+        <h1 className='text-2xl font-semibold my-2'>Comments({commentsCount})</h1>
         <CommentForm loading={commentLoading} error={commentError} autoFocus postId={postId} />
       </div>
       {commentError ? <p>Error fetching comments.</p> : <CommentsList comments={comments} />}
