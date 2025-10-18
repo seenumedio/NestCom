@@ -29,15 +29,27 @@ const createComment = async (req, res) => {
         res.status(400).json({ mssg: err })
     }
 }
+// const deleteComment = async (req, res) => {
+//     const { commentId } = req.params;
+//     const Comment = await CommentModel.findOneAndDelete({ _id: commentId })
+
+//     if (!Comment) {
+//         res.status(404).json({ error: 'No such comment' })
+//     }
+//     res.status(200).json(Comment);
+// }
 const deleteComment = async (req, res) => {
     const { commentId } = req.params;
-    const Comment = await CommentModel.findOneAndDelete({ _id: commentId })
-
-    if (!Comment) {
-        res.status(404).json({ error: 'No such comment' })
-    }
-    res.status(200).json(Comment);
-}
+  
+    const parent = await CommentModel.findByIdAndDelete(commentId);
+    if (!parent) return res.status(404).json({ error: 'No such comment' });
+  
+    // Delete replies linked to this comment
+    await CommentModel.deleteMany({ parentCommentId: commentId });
+  
+    res.status(200).json({ message: 'Comment and its replies deleted successfully' });
+  };
+  
 const updateComment = async (req, res) => {
     const { commentId } = req.params;
     const { comment } = req?.body;
