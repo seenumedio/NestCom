@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAddCommentMutation } from '../features/comments/commentApi';
+import { Loader } from './Spinner'
 
 function CommentForm({ loading, error, autoFocus = false, postId, handleEdit, handleReply, parentId, mssg }) {
 
@@ -9,7 +10,7 @@ function CommentForm({ loading, error, autoFocus = false, postId, handleEdit, ha
 
     const [comment, setComment] = useState(mssg || '');
     // adding comment
-    const [addComment] = useAddCommentMutation() || {}
+    const [addComment, { isLoading: addLoading }] = useAddCommentMutation() || {}
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!user) return alert("Please login to comment");
@@ -27,22 +28,26 @@ function CommentForm({ loading, error, autoFocus = false, postId, handleEdit, ha
             })
         }
         setComment('');
-        if(handleReply){
+        if (handleReply) {
             handleReply();
         }
     }
-
+    const loader = loading || addLoading;
     return (
         <form
             onSubmit={handleSubmit}
         >
             <div className='w-full flex justify-between gap-2'>
-                <textarea
-                    autoFocus={autoFocus}
-                    value={comment}
-                    required
-                    onChange={(e) => setComment(e.target.value)}
-                    className='w-full p-2 resize-none border-2 border-indigo-500/90 rounded-md'></textarea>
+                {loader
+                    ? <Loader loading={loader} />
+                    : <textarea
+                        autoFocus={autoFocus}
+                        value={comment}
+                        required
+                        onChange={(e) => setComment(e.target.value)}
+                        className='w-full p-2 resize-none border-2 border-indigo-500/90 rounded-md'>
+                    </textarea>
+                }
                 <button
                     className='bg-indigo-600 p-3 cursor-pointer rounded-sm text-white disabled:bg-neutral-500 hover:bg-indigo-500 hover:scale-102'
                     disabled={loading}

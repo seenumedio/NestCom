@@ -13,7 +13,6 @@ function PostDetail() {
   if (postError) return <p>Error fetching post.</p>;
   // fetching all comments  
   const { data: comments, isLoading: commentLoading, isError: commentError } = useGetCommentsQuery(postId) || {};
-
   return (
     <>
       {postLoading ? <Spinner /> :

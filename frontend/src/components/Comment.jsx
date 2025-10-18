@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import CommentForm from './CommentForm'
 import { toast } from 'react-toastify';
+import { Loader } from './Spinner'
+
 
 function Comment({ comment }) {
 
@@ -31,15 +33,18 @@ function Comment({ comment }) {
 
   // delete comment
   const [deleteComment] = useDeleteCommentMutation() || {}
-  function handleDelete() {
-    deleteComment({
-      postId,
-      commentId
-    })
-    toast.error('Comment Deleted', { delay: 1500, position: 'bottom-left' })
+  async function handleDelete() {
+    try {
+      await deleteComment({ postId, commentId }).unwrap();
+      toast.success('Comment deleted successfully!', { delay: 1000, position: 'bottom-left' });
+    } catch (err) {
+      toast.error('Failed to delete comment', { position: 'bottom-left' });
+      console.error(err);
+    }
   }
+
   // edit comment
-  const [editComment] = useUpdateCommentMutation() || {}
+  const [editComment, { isLoading: editLoading }] = useUpdateCommentMutation() || {}
   const [isEditing, setIsEditing] = useState(false);
   function handleEditBtn() {
     setIsEditing(prev => !prev)
@@ -106,6 +111,8 @@ function Comment({ comment }) {
               user={user}
             />
           </div>
+          : editLoading
+          ? <Loader />
           : <div className='mssg p-2 text-black'>{comment.comment}</div>
         }
 
@@ -135,6 +142,7 @@ function Comment({ comment }) {
           />
         </div>
       }
+
     </>
   )
 }

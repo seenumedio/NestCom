@@ -1,8 +1,8 @@
 import ClipLoader from 'react-spinners/ClipLoader'
-
+import ScaleLoader from 'react-spinners/ScaleLoader'
 function Spinner({ loading }) {
     const override = {
-        display: 'auto',
+        display: 'block',
         margin: '100px auto'
     }
     return (
@@ -17,5 +17,19 @@ function Spinner({ loading }) {
         </div>
     )
 }
-
+export function Loader({ loading }) {
+    const override = {
+        display: 'block',
+    }
+    return (
+        <div>
+            <ScaleLoader
+                color='#7f9cf5'
+                loading={loading}
+                cssOverride={override}
+                barCount={10}
+            />
+        </div>
+    )
+}
 export default Spinner
