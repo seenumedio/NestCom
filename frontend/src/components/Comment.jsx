@@ -32,7 +32,7 @@ function Comment({ comment }) {
   const createdAt = formatDate(comment.createdAt);
 
   // delete comment
-  const [deleteComment] = useDeleteCommentMutation() || {}
+  const [deleteComment, { isLoading: deleteLoading }] = useDeleteCommentMutation() || {}
   async function handleDelete() {
     try {
       await deleteComment({ postId, commentId }).unwrap();
@@ -112,8 +112,8 @@ function Comment({ comment }) {
             />
           </div>
           : editLoading
-          ? <Loader />
-          : <div className='mssg p-2 text-black'>{comment.comment}</div>
+            ? <Loader />
+            : <div className='mssg p-2 text-black'>{comment.comment}</div>
         }
 
         <div
@@ -126,7 +126,7 @@ function Comment({ comment }) {
           {user?.username === comment.username &&
             <>
               <IconBtn Empty={FaEdit} Filled={FaPencilAlt} aria-label="edit" isEditing={isEditing} handleClick={handleEditBtn} />
-              <IconBtn Empty={FaTrash} Filled={FaTrash} aria-label="delete" handleClick={handleDelete} />
+              {!deleteLoading && <IconBtn Empty={FaTrash} Filled={FaTrash} aria-label="delete" handleClick={handleDelete} />}
             </>
           }
         </div>
