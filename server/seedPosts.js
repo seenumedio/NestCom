@@ -15,7 +15,7 @@ async function seedPosts() {
     const post = new Post({
       title: faker.lorem.sentence(),
       description: faker.lorem.paragraphs(2),
-      image: faker.image.url({ width: 640, height: 480 }),
+      image: faker.image.url({ width: 640 }),
       author: faker.person.fullName(),
       likes: faker.number.int({ min: 0, max: 100 }),
     });
