@@ -64,22 +64,30 @@ function Comment({ comment }) {
   const [likedBy, setLikedBy] = useState(comment.likedBy);
   const [likeComment] = useLikeCommentMutation() || {};
   function handleLike() {
+    let updatedLikes = likes;
+    let updatedLikedBy = [...likedBy];
+
     if (!likedBy.includes(user.username)) {
-      setLikedBy(prev => [...prev, user.username]);
-      setLikes(prev => prev + 1);
+      updatedLikedBy.push(user.username);
+      updatedLikes++;
     } else {
-      setLikes(prev => prev - 1);
-      setLikedBy(prev=> prev.filter(liker=> liker !== user.username))
+      updatedLikedBy = updatedLikedBy.filter(liker => liker !== user.username);
+      updatedLikes--;
     }
+
+    setLikes(updatedLikes);
+    setLikedBy(updatedLikedBy);
+
     likeComment({
       postId,
       commentId,
       data: {
-        likes,
-        likedBy,
+        likes: updatedLikes,
+        likedBy: updatedLikedBy,
       }
-    })
+    });
   }
+
 
   return (
     <>

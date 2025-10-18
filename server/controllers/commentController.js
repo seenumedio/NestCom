@@ -64,10 +64,8 @@ const likeComment = async (req, res) => {
 
     const Comment = await CommentModel.findOneAndUpdate(
         { _id: commentId },
-        {
-            likes,
-            likedBy
-        }
+        { likes, likedBy },
+        { new: true }
     )
     if (!Comment) {
         res.status(404).json({ error: 'No such comment' })
