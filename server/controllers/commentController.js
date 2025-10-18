@@ -31,13 +31,30 @@ const createComment = async (req, res) => {
 }
 const deleteComment = async (req, res) => {
     const { commentId } = req.params;
-    const Comment = await CommentModel.findOneAndDelete({ _id: commentId })
 
-    if (!Comment) {
-        res.status(404).json({ error: 'No such comment' })
+    try {
+        const comment = await CommentModel.findById(commentId);
+        if (!comment) return res.status(404).json({ error: 'No such comment' });
+
+        // Recursive function to delete all nested replies
+        async function deleteReplies(parentId) {
+            const replies = await CommentModel.find({ parentId });
+            for (const reply of replies) {
+                await deleteReplies(reply._id);
+                await CommentModel.deleteOne({ _id: reply._id });
+            }
+        }
+
+        await deleteReplies(comment._id);
+        await CommentModel.deleteOne({ _id: comment._id });
+
+        res.status(200).json({ message: 'Comment and all replies deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to delete comment', details: err.message });
     }
-    res.status(200).json(Comment);
-}
+};
+
 const updateComment = async (req, res) => {
     const { commentId } = req.params;
     const { comment } = req?.body;

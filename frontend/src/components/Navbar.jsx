@@ -3,6 +3,9 @@ import { NavLink } from 'react-router-dom'
 import { FaBars, FaTimes } from 'react-icons/fa'
 
 function Navbar() {
+    const storedUser = localStorage.getItem('user');
+    const user = storedUser ? JSON.parse(storedUser) : null;
+
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const handleClick = ()=>{
         
