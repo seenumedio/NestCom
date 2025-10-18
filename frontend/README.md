@@ -40,13 +40,11 @@ It supports authentication, real-time updates through Redux Toolkit Query, and a
 
 ---
 
-## 🧠 Learning Focus  
-This project helped in understanding:  
-- **RTK Query (queries + mutations)**  
-- Managing deeply **nested recursive structures** in React  
-- Building reusable components with controlled state  
-- Handling optimistic updates and refetch logic in RTK Query  
-- Integrating frontend and backend authentication flow  
+## 🧠 Learning Focus
+
+RTK Query (queries + mutations)
+
+Dynamic nested rendering in React 
 
 ---
 
@@ -68,4 +66,26 @@ Backend
 cd backend
 npm install
 ```
+### 3️⃣ Setup environment variables
 
+Create a .env file inside the backend folder with the following:
+```env
+MONGO_URI=<your-mongodb-uri>
+PORT=4000
+JWT_SECRET=<your-jwt-secret>
+```
+### 4️⃣ Run the app locally
+
+Backend
+```bash
+cd backend
+npm run dev
+```
+Frontend
+```bash
+cd frontend
+npm run dev
+```
+The frontend will run on http://localhost:5173
+ (Vite default) and backend on http://localhost:4000
+.
