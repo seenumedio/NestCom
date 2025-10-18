@@ -5,7 +5,6 @@ import PostDetail from './pages/PostDetail'
 import UserAuth from './pages/UserAuth'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/ReactToastify.css'
-import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 
 function App() {

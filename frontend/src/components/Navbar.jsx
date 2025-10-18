@@ -4,7 +4,9 @@ import { FaBars, FaTimes } from 'react-icons/fa'
 
 function Navbar() {
     const [sidebarOpen, setSidebarOpen] = useState(false)
-
+    const handleClick = ()=>{
+        
+    }
     return (
         <div className='w-[100vw] bg-gradient-to-r from-indigo-500 to-purple-600 p-6 sticky top-0 z-25 h-[10vh] flex items-center justify-between shadow-lg'>
             <NavLink
@@ -32,6 +34,7 @@ function Navbar() {
 
                 <button
                     className='bg-white text-indigo-600 font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-indigo-100 hover:shadow-lg transition-all duration-200'
+                    onClick={handleClick}
                 >
                     Sign Out
                 </button>
@@ -44,7 +47,7 @@ function Navbar() {
                 </button>
             </div>
 
-            {/* Mobile Sidebar */}
+            {/* Mobile LayOut */}
             <div className={`fixed top-0 right-0 h-full w-64 bg-indigo-500 text-white transform transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                 <div className='flex justify-end p-4'>
                     <button onClick={() => setSidebarOpen(false)}>

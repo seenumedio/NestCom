@@ -27,10 +27,21 @@ const commentSchema = new Schema({
 
 commentSchema.pre('findOneAndDelete', async function (next) {
     const comment = await this.model.findOne(this.getQuery());
-    if (comment) {
-        await this.model.deleteMany({ parentId: comment._id });
+
+    if (!comment) return next();
+
+    // Recursive function to delete all nested replies
+    async function deleteReplies(parentId) {
+        const replies = await comment.model.find({ parentId });
+        for (const reply of replies) {
+            await deleteReplies(reply._id);
+            await comment.model.deleteOne({ _id: reply._id });
+        }
     }
+
+    await deleteReplies(comment._id);
     next();
 });
+
 
 module.exports = mongoose.model('Comment', commentSchema);
