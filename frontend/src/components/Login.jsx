@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { loginUser } from '../features/auth/authApi';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Login = ({ setShowLogin }) => {
   const [email, setEmail] = useState('');
@@ -22,6 +23,7 @@ const Login = ({ setShowLogin }) => {
     try {
       const user = await loginUser(email.trim(), password.trim());
       console.log('Logged in user:', user);
+      toast.success('Login successful')
       navigate('/'); // redirect after login
     } catch (err) {
       console.error(err);
@@ -37,7 +39,7 @@ const Login = ({ setShowLogin }) => {
         <h2>Login</h2>
         <button
           className='text-blue-500 hover:underline hover:scale-102 cursor-pointer'
-          onClick={(e) => {e.preventDefault(); setShowLogin(false)}}
+          onClick={(e) => { e.preventDefault(); setShowLogin(false) }}
         >SignUp</button>
       </div>
       {error && <p style={{ color: 'red' }}>{error}</p>}

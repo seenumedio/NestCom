@@ -40,19 +40,35 @@ const deleteComment = async (req, res) => {
 }
 const updateComment = async (req, res) => {
     const { commentId } = req.params;
-    const { username, comment, likes } = req?.body;
-    if(!commentId){
-        return res.status(404).json({error: 'No comment id received'})
+    const { comment } = req?.body;
+    if (!commentId) {
+        return res.status(404).json({ error: 'No comment id received' })
     }
 
     const Comment = await CommentModel.findOneAndUpdate(
         { _id: commentId },
         {
             comment,
-            likes: likes || 0
         }
     )
 
+    if (!Comment) {
+        res.status(404).json({ error: 'No such comment' })
+    }
+    res.status(200).json(Comment);
+}
+const likeComment = async (req, res) => {
+    const { commentId } = req?.params;
+    const { likes, likedBy } = req?.body;
+    if (!commentId) return res.status(404).json({ error: 'No comment id received' })
+
+    const Comment = await CommentModel.findOneAndUpdate(
+        { _id: commentId },
+        {
+            likes,
+            likedBy
+        }
+    )
     if (!Comment) {
         res.status(404).json({ error: 'No such comment' })
     }
@@ -62,5 +78,6 @@ module.exports = {
     createComment,
     getAllComments,
     deleteComment,
-    updateComment
+    updateComment,
+    likeComment
 }

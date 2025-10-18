@@ -24,10 +24,17 @@ export const commentApi = rootApi.injectEndpoints({
         updateComment: builder.mutation({
             query: ({ postId, commentId, data }) => ({
                 method: 'PATCH',
-                url: `comments/${postId}/comments/${commentId}`,
+                url: `/comments/${postId}/comments/${commentId}`,
                 body: data
             }),
             invalidatesTags: ['Comment']
+        }),
+        likeComment: builder.mutation({
+            query: ({ postId, commentId, data }) => ({
+                method: 'PATCH',
+                url: `/comments/${postId}/comments/${commentId}/likes`,
+                body: data
+            }),
         })
     })
 })
@@ -35,5 +42,6 @@ export const {
     useGetCommentsQuery,
     useAddCommentMutation,
     useDeleteCommentMutation,
-    useUpdateCommentMutation
+    useUpdateCommentMutation,
+    useLikeCommentMutation,
 } = commentApi

@@ -19,7 +19,7 @@ const commentSchema = new Schema({
         type: Number,
         default: 0,
     },
-    likedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    likedBy: [{ type: String, ref: 'User' }],
     parentId: { type: Schema.Types.ObjectId, default: null },
 }, {
     timestamps: true

@@ -1,12 +1,12 @@
 import { FaHeart, FaRegHeart, FaEdit, FaTrash, FaPencilAlt, FaReply, FaTimes } from 'react-icons/fa'
 import IconBtn from './IconBtn'
-import { useDeleteCommentMutation, useUpdateCommentMutation } from '../features/comments/commentApi'
+import { useDeleteCommentMutation, useUpdateCommentMutation, useLikeCommentMutation } from '../features/comments/commentApi'
 import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import CommentForm from './CommentForm'
+import { toast } from 'react-toastify';
 
 function Comment({ comment }) {
-  const [likes, setLikes] = useState(comment.likes);
 
   const storedUser = localStorage.getItem('user');
   const user = storedUser ? JSON.parse(storedUser) : null;
@@ -36,6 +36,7 @@ function Comment({ comment }) {
       postId,
       commentId
     })
+    toast.error('Comment Deleted', { delay: 1500, position: 'bottom-left' })
   }
   // edit comment
   const [editComment] = useUpdateCommentMutation() || {}
@@ -59,8 +60,25 @@ function Comment({ comment }) {
     setIsReplying(prev => !prev);
   }
   // like comment
+  const [likes, setLikes] = useState(comment.likes);
+  const [likedBy, setLikedBy] = useState(comment.likedBy);
+  const [likeComment] = useLikeCommentMutation() || {};
   function handleLike() {
-    setLikes(prev => prev === 0 ? 1 : 0);
+    if (!likedBy.includes(user.username)) {
+      setLikedBy(prev => [...prev, user.username]);
+      setLikes(prev => prev + 1);
+    } else {
+      setLikes(prev => prev - 1);
+      setLikedBy(prev=> prev.filter(liker=> liker !== user.username))
+    }
+    likeComment({
+      postId,
+      commentId,
+      data: {
+        likes,
+        likedBy,
+      }
+    })
   }
 
   return (
@@ -101,11 +119,11 @@ function Comment({ comment }) {
       </div>
       {isReplying &&
         <div className='pl-4 border-l-2 border-neutral-400/50'>
-          <CommentForm 
-          autoFocus={true}
-          parentId={commentId}
-          postId={postId}
-          handleReply={handleReply}
+          <CommentForm
+            autoFocus={true}
+            parentId={commentId}
+            postId={postId}
+            handleReply={handleReply}
           />
         </div>
       }

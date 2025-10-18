@@ -9,7 +9,7 @@ export default function IconBtn({ Filled, Empty, children, handleClick, isEditin
       : isActive;
 return (
     <button
-      onClick={() => { setIsActive(prev => !prev); if (handleClick) handleClick() }}
+      onClick={() => { setIsActive(prev => !prev); if (handleClick) handleClick(); }}
       {...props}
       className='flex items-center cursor-pointer'
     >

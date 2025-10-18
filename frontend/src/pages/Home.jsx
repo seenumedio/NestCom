@@ -1,33 +1,22 @@
 import React from 'react';
-import Masonry from 'react-masonry-css';
 import PostCard from '../components/PostCard';
 import { useGetAllPostsQuery } from '../features/posts/postApi';
-import { NavLink } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-
+import Spinner from '../components/Spinner';
 function Home() {
   const { data: posts, isLoading, isError } = useGetAllPostsQuery() || {};
-  if (!posts?.length) return null;
 
-  const breakpointColumnsObj = {
-    default: 3,
-    1024: 2,
-    640: 1
-  };
+  if (isLoading) return <Spinner />
+  if (isError) return <p>Error fetching posts.</p>;
+  if (!posts?.length) return <p>No posts available.</p>;
 
   return (
     <div className='w-[100vw] flex flex-col items-center'>
       <Navbar />
-      <div className='py-4 w-[90%]'>
-        <Masonry
-          breakpointCols={breakpointColumnsObj}
-          className="flex -ml-2 w-auto"
-          columnClassName="pl-2 bg-clip-padding"
-        >
+        <div className='py-4 w-[90%] columns-1 sm:columns-2 md:columns-3 gap-4'>
           {posts.map(post => (
             <PostCard key={post._id} post={post} />
           ))}
-        </Masonry>
       </div>
     </div>
   );

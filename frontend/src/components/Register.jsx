@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { registerUser } from '../features/auth/authApi';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -28,6 +29,7 @@ const Register = () => {
       setUsername('');
       setEmail('');
       setPassword('');
+      toast.success('SignUp successful')
       // Redirect after successful registration
       navigate('/');
     } catch (err) {
