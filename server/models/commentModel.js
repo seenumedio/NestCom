@@ -28,9 +28,9 @@ const commentSchema = new Schema({
 commentSchema.pre('findOneAndDelete', async function (next) {
     const comment = await this.model.findOne(this.getQuery());
     if (comment) {
-      await this.model.deleteMany({ parentCommentId: comment._id });
+        await this.model.deleteMany({ parentId: comment._id });
     }
     next();
-  });
+});
 
 module.exports = mongoose.model('Comment', commentSchema);

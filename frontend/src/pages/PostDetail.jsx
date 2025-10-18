@@ -15,7 +15,7 @@ function PostDetail() {
   const { data: comments, isLoading: commentLoading, isError: commentError } = useGetCommentsQuery(postId) || {};
   const commentsCount = comments?.length || 0;
   return (
-    <>
+    <div className='mb-10'>
       {postLoading ? <Spinner /> :
         <div className='w-[90vw] relative h-full flex flex-col sm:flex-row justify-between my-4 md:p-4 p-2 rounded-sm bg-neutral-100 shadow-lg'>
           <NavLink
@@ -50,7 +50,7 @@ function PostDetail() {
         <CommentForm loading={commentLoading} error={commentError} autoFocus postId={postId} />
       </div>
       {commentError ? <p>Error fetching comments.</p> : <CommentsList comments={comments} />}
-    </>
+    </div>
   )
 }
 
