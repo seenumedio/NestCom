@@ -32,7 +32,7 @@ const Login = ({ setShowLogin }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-4 bg-neutral-100 rounded-md shadow-md">
       <div className='flex justify-between'>
         <h2>Login</h2>
         <button

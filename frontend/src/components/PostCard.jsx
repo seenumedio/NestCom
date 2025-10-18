@@ -1,11 +1,18 @@
 import { useState } from 'react'
 import { motion } from "framer-motion";
-function PostCard({post}) {
+import { useNavigate } from 'react-router-dom';
+function PostCard({ post }) {
     const [isHovered, setIsHovered] = useState(false);
     const [topLeft, bottomLeft, bottomRight, initial] = [{ x: 40, y: 40, opacity: 0 }, { x: 40, y: -40, opacity: 0 }, { x: -80, y: -40, opacity: 0 }, { x: 0, y: 0, opacity: 1 }];
+    const navigate = useNavigate();
+    
+    const handleClick = () => {
+        navigate(`/post/${post._id}`);
+    }
+
     return (
         <motion.div
-            className='w-100 h-100 flex justify-center relative p-2 rounded-2xl overflow-hidden hover:overflow-visible'
+            className='w-auto max-h-150 flex justify-center relative hover:mb-6 p-2 rounded-2xl overflow-hidden hover:overflow-visible'
             onHoverStart={() => { setIsHovered(true) }}
             onHoverEnd={() => { setIsHovered(false) }}
             whileHover={{ scale: 1.02 }}
@@ -13,11 +20,23 @@ function PostCard({post}) {
         >
             <motion.img
                 src={post.image}
-                className='w-full h-full text-white rounded-[inherit] text-center'
+                className='w-full min-h-50 text-white object-fill rounded-[inherit] text-center cursor-pointer'
                 animate={{ opacity: isHovered ? 0.75 : 1 }}
                 transition={{ duration: 0.3 }}
+                onClick={handleClick}
             />
-
+            <motion.button
+                className='cursor-pointer px-4 py-2 hover:scale-102 hover:shadow-md rounded-md font-bold absolute bottom-[-18px] '
+                style={{
+                    background: 'linear-gradient(to right, skyblue, cyan)'
+                }}
+                initial={{ y: -40, opacity: 0 }}
+                animate={isHovered ? { y: 0, opacity: 1 } : { y: -40, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                onClick={handleClick}
+            >
+                More Info
+            </motion.button>
             <motion.button
                 className='h-10 w-10 cursor-pointer hover:scale-104 hover:shadow-md absolute top-4 left-4 bg-cover bg-center bg-[url(/src/assets/FavIcon.png)]'
                 initial={topLeft}
@@ -48,17 +67,7 @@ function PostCard({post}) {
                 transition={{ duration: 0.3 }}
             >
             </motion.button>
-            <motion.button
-                className='cursor-pointer px-4 py-2 hover:scale-102 hover:shadow-md rounded-md font-bold absolute bottom-[-18px] '
-                style={{
-                    background: 'linear-gradient(to right, skyblue, cyan)'
-                }}
-                initial={{ y: -40, opacity: 0 }}
-                animate={isHovered ? { y: 0, opacity: 1 } : { y: -40, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-            >
-                More Info
-            </motion.button>
+
         </motion.div>
     )
 }

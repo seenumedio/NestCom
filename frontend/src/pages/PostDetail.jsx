@@ -15,14 +15,14 @@ function PostDetail() {
   if (!post) return null;
   return (
     <>
-      <div className='w-[90vw] relative h-full flex flex-col sm:flex-row justify-between my-4 p-4 rounded-sm bg-neutral-100 shadow-lg'>
+      <div className='w-[90vw] relative h-full flex flex-col sm:flex-row justify-between my-4 md:p-4 p-2 rounded-sm bg-neutral-100 shadow-lg'>
         <NavLink
         to='/'
-        className='absolute left-8 text-lg hover:scale-102 text-indigo-500'
-        >{'<-Home'}
+        className='absolute md:left-8 md:p-0 px-2 text-lg hover:scale-102 text-indigo-500'
+        >{'←Home'}
         </NavLink>
-        <div className='sm:w-[50%] flex flex-col p-4 justify-around gap-4 sm:gap-0'>
-          <h1 className='text-5xl font-bold'>{post.title}</h1>
+        <div className='sm:w-[50%] flex flex-col my-6 md:my-2 md:p-4 p-2 justify-around gap-4 sm:gap-0'>
+          <h1 className='text-3xl md:text-4xl lg:text-5xl font-bold'>{post.title}</h1>
           <p className='text-md font-light max-h-[40vh] overflow-scroll'>{post.description}</p>
           <div className='icons'></div>
         </div>

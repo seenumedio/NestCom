@@ -38,7 +38,7 @@ const Register = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-4 bg-neutral-100 rounded-md shadow-md">
       <h2>Register</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <input

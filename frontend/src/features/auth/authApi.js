@@ -10,10 +10,11 @@ export const registerUser = async (username, email, password) => {
   if (!res.ok) throw new Error(data.message || 'Registration failed');
 
   // Save user to localStorage immediately after registration
-  if (data && typeof data === 'object') {
-    localStorage.setItem('user', JSON.stringify(data.user));
-  }
-  return data.user;
+  // if (data) {
+  //   console.log(data);
+  //   localStorage.setItem('user', JSON.stringify(data.user));
+  // }
+  return data;
 };
 
 export const loginUser = async (email, password) => {
