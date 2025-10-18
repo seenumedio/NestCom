@@ -1,15 +1,25 @@
-import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { FaBars, FaTimes } from 'react-icons/fa'
 
 function Navbar() {
+    const navigate = useNavigate();
+    const [sidebarOpen, setSidebarOpen] = useState(false)
+
     const storedUser = localStorage.getItem('user');
     const user = storedUser ? JSON.parse(storedUser) : null;
+    const [loggedIn, setLoggedIn] = useState(true);
 
-    const [sidebarOpen, setSidebarOpen] = useState(false)
-    const handleClick = ()=>{
-        
+    const handleClick = () => {
+        if (loggedIn) {
+            localStorage.removeItem('user');
+            setLoggedIn(false);
+        } else navigate('/auth');
     }
+
+    useEffect(() => {
+        setLoggedIn(user ? true : false)
+    }, [user])
     return (
         <div className='w-[100vw] bg-gradient-to-r from-indigo-500 to-purple-600 p-6 sticky top-0 z-25 h-[10vh] flex items-center justify-between shadow-lg'>
             <NavLink
@@ -19,7 +29,7 @@ function Navbar() {
                 NestCom
             </NavLink>
 
-            {/* Desktop Menu */}
+            {/* Desktop */}
             <div className='hidden sm:flex gap-6 items-center'>
                 <NavLink
                     to='/'
@@ -36,10 +46,10 @@ function Navbar() {
                 </NavLink>
 
                 <button
-                    className='bg-white text-indigo-600 font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-indigo-100 hover:shadow-lg transition-all duration-200'
+                    className={`${loggedIn ? 'bg-red-400 text-white' : 'bg-white text-indigo-600'} font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-indigo-100 hover:shadow-lg transition-all duration-200`}
                     onClick={handleClick}
                 >
-                    Sign Out
+                    {loggedIn ? 'Sign Out' : 'LogIn'}
                 </button>
             </div>
 
@@ -50,7 +60,7 @@ function Navbar() {
                 </button>
             </div>
 
-            {/* Mobile LayOut */}
+            {/* Mobile */}
             <div className={`fixed top-0 right-0 h-full w-64 bg-indigo-500 text-white transform transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                 <div className='flex justify-end p-4'>
                     <button onClick={() => setSidebarOpen(false)}>
@@ -73,8 +83,8 @@ function Navbar() {
                         Add Post
                     </NavLink>
                     <button
-                        className='bg-white text-indigo-600 font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-indigo-100 hover:shadow-lg transition-all duration-200 mt-4'
-                        onClick={() => setSidebarOpen(false)}
+                        className={`${loggedIn ? 'bg-red-400 text-white' : 'bg-white text-indigo-600'} font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-indigo-100 hover:shadow-lg transition-all duration-200`}
+                        onClick={() => { setSidebarOpen(false); handleClick() }}
                     >
                         Sign Out
                     </button>
