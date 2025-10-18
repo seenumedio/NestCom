@@ -21,7 +21,7 @@ function Comment({ comment }) {
 
     const options = {
       year: 'numeric',
-      month: 'short', // e.g., Jan, Feb
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
@@ -68,10 +68,17 @@ function Comment({ comment }) {
   const [likes, setLikes] = useState(comment.likes);
   const [likedBy, setLikedBy] = useState(comment.likedBy);
   const [likeComment] = useLikeCommentMutation() || {};
-  function handleLike() {
+  const hasLiked = user ? likedBy.includes(user.username) : null;
+
+  async function handleLike() {
+    if (!user) {
+      toast.warn("Please log in to like comments", { position: 'bottom-right' });
+      return;
+    }
+  
     let updatedLikes = likes;
     let updatedLikedBy = [...likedBy];
-
+  
     if (!likedBy.includes(user.username)) {
       updatedLikedBy.push(user.username);
       updatedLikes++;
@@ -79,21 +86,26 @@ function Comment({ comment }) {
       updatedLikedBy = updatedLikedBy.filter(liker => liker !== user.username);
       updatedLikes--;
     }
-
+  
     setLikes(updatedLikes);
     setLikedBy(updatedLikedBy);
-
-    likeComment({
+  
+    await likeComment({
       postId,
       commentId,
       data: {
         likes: updatedLikes,
         likedBy: updatedLikedBy,
       }
-    });
+    })
+    refetch()
   }
+  
 
-
+  const colorMap = {
+    red: 'text-red-400',
+    green: 'text-green-400',
+  }
   return (
     <>
       <div className='comment my-2 border-1 border-indigo-400/50 rounded-md p-2'>
@@ -119,14 +131,21 @@ function Comment({ comment }) {
         <div
           className="footer flex gap-4 text-indigo-500"
         >
-          <IconBtn Empty={FaRegHeart} Filled={FaHeart} aria-label="like" handleClick={handleLike}>
-            {likes}
-          </IconBtn>
+          <button
+            onClick={() => handleLike()}
+            aria-label="like"
+            className='flex items-center cursor-pointer'
+          >
+            {hasLiked ? <FaHeart /> : <FaRegHeart />}
+            <span className="ml-1">
+              {likes}
+            </span>
+          </button>
           <IconBtn Empty={FaReply} Filled={FaTimes} aria-label="reply" isReplying={isReplying} handleClick={handleReply} />
           {user?.username === comment.username &&
             <>
-              <IconBtn Empty={FaEdit} Filled={FaPencilAlt} aria-label="edit" isEditing={isEditing} handleClick={handleEditBtn} />
-              {!deleteLoading && <IconBtn Empty={FaTrash} Filled={FaTrash} aria-label="delete" handleClick={handleDelete} />}
+              <IconBtn Empty={FaEdit} Filled={FaPencilAlt} aria-label="edit" isEditing={isEditing} color={colorMap.green} handleClick={handleEditBtn} />
+              {!deleteLoading && <IconBtn Empty={FaTrash} Filled={FaTrash} aria-label="delete" color={colorMap.red} handleClick={handleDelete} />}
             </>
           }
         </div>

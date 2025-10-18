@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAddCommentMutation } from '../features/comments/commentApi';
 import { Loader } from './Spinner'
+import { toast } from 'react-toastify';
 
 function CommentForm({ loading, error, autoFocus = false, postId, handleEdit, handleReply, parentId, mssg }) {
 
@@ -13,7 +14,10 @@ function CommentForm({ loading, error, autoFocus = false, postId, handleEdit, ha
     const [addComment, { isLoading: addLoading }] = useAddCommentMutation() || {}
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!user) return alert("Please login to comment");
+        if (!user) {
+            toast.warn('Please login to comment!!')
+            return;
+        }
         if (handleEdit) {
             handleEdit(comment)
         } else {

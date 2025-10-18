@@ -1,22 +1,21 @@
 import { useState } from 'react'
 
-export default function IconBtn({ Filled, Empty, children, handleClick, isEditing, isReplying, ...props }) {
+export default function IconBtn({ Filled, Empty, color, handleClick, isEditing, isReplying, ...props }) {
   const [isActive, setIsActive] = useState(false);
-  const active = typeof isEditing === 'boolean' 
-  ? isEditing 
-  : typeof isReplying === 'boolean' 
-      ? isReplying 
+  const active = typeof isEditing === 'boolean'
+    ? isEditing
+    : typeof isReplying === 'boolean'
+      ? isReplying
       : isActive;
-return (
+  return (
     <button
       onClick={() => { setIsActive(prev => !prev); if (handleClick) handleClick(); }}
       {...props}
       className='flex items-center cursor-pointer'
     >
-      <span className={`${children != null ? "mr-1" : ""} ${Filled === Empty && 'text-red-400'}`}>
+      <span className={color}>
         {active ? <Filled /> : <Empty />}
       </span>
-      {children}
     </button>
   )
 }

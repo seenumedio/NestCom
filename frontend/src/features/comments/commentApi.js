@@ -35,6 +35,7 @@ export const commentApi = rootApi.injectEndpoints({
                 url: `/comments/${postId}/comments/${commentId}/likes`,
                 body: data
             }),
+            invalidatesTags: ['Comment']
         })
     })
 })
